@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "webservice.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "webservice.name" . }}
+    helm.sh/chart: {{ include "webservice.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: front-end
+    app.kubernetes.o/part-of: {{ include "webservice.name" . }}
+    {{- include "webservice.labels" . | nindent 4 }}
+
+{{- if .Values.service.annotations }}
+  annotations:
+{{ toYaml .Values.service.annotations | indent 4 }}
+{{- end }}
+
+spec:
+  type: {{ .Values.service.type }}
+  {{- if and .Values.service.loadBalancerIP (eq .Values.service.type "LoadBalancer") }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{- end }}
+  {{- if and (eq .Values.service.type "LoadBalancer") .Values.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+  {{ with .Values.service.loadBalancerSourceRanges }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+  {{- end }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "webservice.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "webservice.selectorLabels" . | nindent 4 }}
