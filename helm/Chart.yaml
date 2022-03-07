@@ -1,5 +1,6 @@
 apiVersion: v2
 name: webservice
+icon: https://www.python.org/static/community_logos/python-powered-h-50x65.png
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
