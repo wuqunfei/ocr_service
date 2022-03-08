@@ -3,12 +3,6 @@ kind: Service
 metadata:
   name: {{ include "webservice.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "webservice.name" . }}
-    helm.sh/chart: {{ include "webservice.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/component: front-end
-    app.kubernetes.o/part-of: {{ include "webservice.name" . }}
     {{- include "webservice.labels" . | nindent 4 }}
 
 {{- if .Values.service.annotations }}
@@ -33,6 +27,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "webservice.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
     {{- include "webservice.selectorLabels" . | nindent 4 }}
