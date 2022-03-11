@@ -36,6 +36,7 @@ ingress:
     - host: example.change.local
       paths:
         - path: /
+          pathType: ImplementationSpecific
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
