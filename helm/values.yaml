@@ -24,7 +24,9 @@ service:
 #  only type is LoadBalancer
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
-
+# health check liveness and readiness path
+  livenesPath: /healthz/live
+  readinessPath: /healthz/ready
 
 ingress:
   enabled: true
