@@ -17,6 +17,13 @@ fullnameOverride: ""
 
 podAnnotations: {}
 
+deployment:
+  port: 5000
+  # health check liveness and readiness path
+  health:
+    livenesPath: /healthz/live
+    readinessPath: /healthz/ready
+
 service:
   type: ClusterIP
   port: 8080
@@ -24,9 +31,6 @@ service:
 #  only type is LoadBalancer
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
-# health check liveness and readiness path
-  livenesPath: /healthz/live
-  readinessPath: /healthz/ready
 
 ingress:
   enabled: true
